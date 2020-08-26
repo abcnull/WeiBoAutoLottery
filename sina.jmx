@@ -884,8 +884,9 @@ for (int i = 1,index = 0; i &lt;= originNum; i++) {
 		if (tmpCtx.matches(&quot;(?s)^(.*?)带(着|上)?话题(.*?)$&quot;) || tmpCtx.matches(&quot;(?s)^(.*?)带(上?)( ?)&lt;a target=(.*?)$&quot;)) {
 			// 有可能出现 “带话题” 之后每有 “#”，可能在前面出现了 “#” 号
 			// 如果 &quot;带话题&quot; 后正常有 &quot;#&quot; 号
-			if (tmpCtx.split(&quot;带话题(.*?)#&quot;).length &gt; 1) {
-				value = &quot;#&quot;+tmpCtx.split(&quot;带话题(.*?)#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖...&quot;;
+			// &quot;带话题(.*?)#&quot;
+			if (tmpCtx.split(&quot;带(上?)(话题)?( ?)#&quot;).length &gt; 1) {
+				value = &quot;#&quot;+tmpCtx.split(&quot;带(上?)(话题)?( ?)#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖...&quot;;
 			}
 			// 如果带话题后没有 &quot;#&quot; 号
 			else {
@@ -919,8 +920,8 @@ for (int i = 1,index = 0; i &lt;= originNum; i++) {
 		if (tmpCtx.matches(&quot;(?s)^(.*?)带(着|上)?话题(.*?)$&quot;) || tmpCtx.matches(&quot;(?s)^(.*?)带(上?)( ?)&lt;a target=(.*?)$&quot;)) {
 			// 有可能出现 “带话题” 之后每有 “#”，可能在前面出现了 “#” 号
 			// 如果 &quot;带话题&quot; 后正常有 &quot;#&quot; 号
-			if (tmpCtx.split(&quot;带话题(.*?)#&quot;).length &gt; 1) {
-				value = &quot;#&quot;+tmpCtx.split(&quot;带话题(.*?)#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖&quot;;
+			if (tmpCtx.split(&quot;带(上?)(话题)?( ?)#&quot;).length &gt; 1) {
+				value = &quot;#&quot;+tmpCtx.split(&quot;带(上?)(话题)?( ?)#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖&quot;;
 			}
 			// 如果带话题后没有 &quot;#&quot; 号
 			else {
