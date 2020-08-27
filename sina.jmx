@@ -66,13 +66,13 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="currentTime" elementType="Argument">
               <stringProp name="Argument.name">currentTime</stringProp>
-              <stringProp name="Argument.value">2020-08-25</stringProp>
+              <stringProp name="Argument.value">2020-08-26</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">${__time(yyyy-MM-dd,)}</stringProp>
             </elementProp>
             <elementProp name="timerDuration" elementType="Argument">
               <stringProp name="Argument.name">timerDuration</stringProp>
-              <stringProp name="Argument.value">200</stringProp>
+              <stringProp name="Argument.value">300</stringProp>
               <stringProp name="Argument.desc">毫秒（ms）</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
@@ -899,15 +899,15 @@ for (int i = 1,index = 0; i &lt;= originNum; i++) {
 		}
 		// 对于不用评论的，需要识别一下是否需要 at 几位好友
 		// 如果要 at 一位好友
-		if (tmpCtx.matches(&quot;(?s)^(.*?)(@|艾特) ?(你的|您的)?(1位|1名|1个|一位|一名|一个)(.*?)$&quot;)) {
+		if (tmpCtx.matches(&quot;(?s)^(.*?)(@|艾特|圈|圈出|圈上) ?(你的|您的)?(1位|1名|1个|一位|一名|一个)(.*?)$&quot;)) {
 			value = value + &quot;@新手指南&quot;;    
 		}
 		// 如果要 at 两位好友
-		else if (tmpCtx.matches(&quot;(?s)^(.*?)(@|艾特) ?(你的|您的)?(2位|2名|2个|两位|两名|两个)(.*?)$&quot;)) {
+		else if (tmpCtx.matches(&quot;(?s)^(.*?)(@|艾特|圈|圈出|圈上) ?(你的|您的)?(2位|2名|2个|两位|两名|两个)(.*?)$&quot;)) {
 			value = value + &quot;@新手指南@大冶红xin勺&quot;;
 		}
 		// 如果要 at 三位好友
-		else if (tmpCtx.matches(&quot;(?s)^(.*?)(@|艾特) ?(你的|您的)?(3位|3名|3个|三位|三名|三个)(.*?)$&quot;)) {
+		else if (tmpCtx.matches(&quot;(?s)^(.*?)(@|艾特|圈|圈出|圈上) ?(你的|您的)?(3位|3名|3个|三位|三名|三个)(.*?)$&quot;)) {
 			value = value + &quot;@新手指南@大冶红xin勺@容嬷嬷的微博&quot;;
 		}
 		noComMap.put(tmpId, value);
