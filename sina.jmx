@@ -49,7 +49,414 @@
         <stringProp name="TestPlan.comments">class=\\&quot;WB_text(.+?)&lt;(div |i )</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="currentTime" elementType="Argument">
+            <stringProp name="Argument.name">currentTime</stringProp>
+            <stringProp name="Argument.value">2020-08-26</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">${__time(yyyy-MM-dd,)}</stringProp>
+          </elementProp>
+          <elementProp name="deleteGap" elementType="Argument">
+            <stringProp name="Argument.name">deleteGap</stringProp>
+            <stringProp name="Argument.value">4</stringProp>
+            <stringProp name="Argument.desc">删除多少天前的</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="timerDuration" elementType="Argument">
+            <stringProp name="Argument.name">timerDuration</stringProp>
+            <stringProp name="Argument.value">300</stringProp>
+            <stringProp name="Argument.desc">毫定时器间隔多少毫秒（ms）</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cookies" elementType="Argument">
+            <stringProp name="Argument.name">cookies</stringProp>
+            <stringProp name="Argument.value">SINAGLOBAL=37089483263.85686.1597846118028; wvr=6; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WFHe8sUxIJF5SEcjA7MyoiM5JpX5KzhUgL.Fo-ESh5RSKzN1K-2dJLoIXXLxKqLBonL1h-LxK.LBKeL12-LxKML1heL1hnLxK.L1h-L1KzLxK-LB-BLBKBLxKML12zLB-eLxKBLBonLB.2LxK-L12qL12zEe0e0e7tt; wb_view_log_5240852795=1366*7681; UOR=,,www.baidu.com; Ugrow-G0=589da022062e21d675f389ce54f2eae7; SUB=_2A25yQ0HKDeRhGeNM71IZ9SzLwjmIHXVROTQCrDV8PUNbmtANLRnZkW9NTgPndlExfhv1VXs4EFWgNniSxbWOSSlQ; SUHB=0btMNBksSDo6Ot; ALF=1630037273; SSOLoginState=1598501274; YF-V5-G0=99df5c1ecdf13307fb538c7e59e9bc9d; _s_tentry=login.sina.com.cn; Apache=6500653037208.957.1598501278227; ULV=1598501278326:11:11:8:6500653037208.957.1598501278227:1598495673976</stringProp>
+            <stringProp name="Argument.desc">cookies 目前不知道多久变一次</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+        <collectionProp name="HeaderManager.headers">
+          <elementProp name="cookie" elementType="Header">
+            <stringProp name="Header.name">cookie</stringProp>
+            <stringProp name="Header.value">${cookies}</stringProp>
+          </elementProp>
+          <elementProp name="user-agent" elementType="Header">
+            <stringProp name="Header.name">user-agent</stringProp>
+            <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36</stringProp>
+          </elementProp>
+          <elementProp name="origin" elementType="Header">
+            <stringProp name="Header.name">origin</stringProp>
+            <stringProp name="Header.value">https://weibo.com</stringProp>
+          </elementProp>
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">referer</stringProp>
+            <stringProp name="Header.value">https://weibo.com/5240852795/profile?rightmod=1&amp;wvr=6&amp;mod=personnumber&amp;is_all=1</stringProp>
+          </elementProp>
+          <elementProp name="x-requested-with" elementType="Header">
+            <stringProp name="Header.name">x-requested-with</stringProp>
+            <stringProp name="Header.value">XMLHttpRequest</stringProp>
+          </elementProp>
+        </collectionProp>
+      </HeaderManager>
+      <hashTree/>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setup 删除多少天前的转发微博" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="获取要删除微博的日期" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="获取要删除微博的日期" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.*;
+import java.text.SimpleDateFormat;
+
+int gap = 0 - ${deleteGap};
+Calendar calendar = Calendar.getInstance();
+calendar.add(Calendar.DATE, gap);
+
+SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+String beforeTime = sdf.format(calendar.getTime());
+
+// 设置全局的日期
+vars.put(&quot;beforeTime&quot;, beforeTime);</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="初始循环参数" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">vars.put(&quot;flag&quot;, &quot;true&quot;);</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While 循环搜索指定日期之前的所有微博" enabled="true">
+          <stringProp name="WhileController.condition">${flag}</stringProp>
+        </WhileController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="循环第${__counter(TRUE,)}次搜索自己某个日期前的所有微博" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="pids" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">Pl_Official_MyProfileFeed__20</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">pids</stringProp>
+                </elementProp>
+                <elementProp name="is_ori" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">0</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_ori</stringProp>
+                </elementProp>
+                <elementProp name="is_forward" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_forward</stringProp>
+                </elementProp>
+                <elementProp name="is_text" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_text</stringProp>
+                </elementProp>
+                <elementProp name="is_pic" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_pic</stringProp>
+                </elementProp>
+                <elementProp name="is_video" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_video</stringProp>
+                </elementProp>
+                <elementProp name="is_music" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_music</stringProp>
+                </elementProp>
+                <elementProp name="is_article" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_article</stringProp>
+                </elementProp>
+                <elementProp name="key_word" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">key_word</stringProp>
+                </elementProp>
+                <elementProp name="start_time" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">start_time</stringProp>
+                </elementProp>
+                <elementProp name="end_time" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${beforeTime}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">end_time</stringProp>
+                </elementProp>
+                <elementProp name="gid" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">gid</stringProp>
+                </elementProp>
+                <elementProp name="is_new" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_new</stringProp>
+                </elementProp>
+                <elementProp name="is_search" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_search</stringProp>
+                </elementProp>
+                <elementProp name="is_searchadv" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">is_searchadv</stringProp>
+                </elementProp>
+                <elementProp name="ajaxpagelet" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">ajaxpagelet</stringProp>
+                </elementProp>
+                <elementProp name="ajaxpagelet_v6" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">ajaxpagelet_v6</stringProp>
+                </elementProp>
+                <elementProp name="__ref" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">__ref</stringProp>
+                </elementProp>
+                <elementProp name="_t" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">_t</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">weibo.com</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/5240852795/profile</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="将响应结果 unicode 转成中文" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String s=new String(prev.getResponseData(),&quot;UTF-8&quot;);
+char aChar;
+int len= s.length();
+StringBuffer outBuffer=new StringBuffer(len);
+for(int x =0; x &lt;len;){
+  aChar= s.charAt(x++);
+  if(aChar==&apos;\\&apos;){
+      aChar= s.charAt(x++);
+      if(aChar==&apos;u&apos;){
+          int value =0;
+          for(int i=0;i&lt;4;i++){
+              aChar= s.charAt(x++);
+              switch(aChar){
+                  case&apos;0&apos;:
+                  case&apos;1&apos;:
+                  case&apos;2&apos;:
+                  case&apos;3&apos;:
+                  case&apos;4&apos;:
+                  case&apos;5&apos;:
+                  case&apos;6&apos;:
+                  case&apos;7&apos;:
+                  case&apos;8&apos;:
+                  case&apos;9&apos;:
+                      value=(value &lt;&lt;4)+aChar-&apos;0&apos;;
+                      break;
+                  case&apos;a&apos;:
+                  case&apos;b&apos;:
+                  case&apos;c&apos;:
+                  case&apos;d&apos;:
+                  case&apos;e&apos;:
+                  case&apos;f&apos;:
+                      value=(value &lt;&lt;4)+10+aChar-&apos;a&apos;;
+                      break;
+                  case&apos;A&apos;:
+                  case&apos;B&apos;:
+                  case&apos;C&apos;:
+                  case&apos;D&apos;:
+                  case&apos;E&apos;:
+                  case&apos;F&apos;:
+                      value=(value &lt;&lt;4)+10+aChar-&apos;A&apos;;
+                      break;
+                  default:
+                      throw new IllegalArgumentException(
+                              &quot;Malformed   \\uxxxx  encoding.&quot;);}}
+          outBuffer.append((char) value);}else{
+          if(aChar==&apos;t&apos;)
+              aChar=&apos;\t&apos;;
+          else if(aChar==&apos;r&apos;)
+          aChar=&apos;\r&apos;;
+          else if(aChar==&apos;n&apos;)
+          aChar=&apos;\n&apos;;
+          else if(aChar==&apos;f&apos;)
+          aChar=&apos;\f&apos;;
+          outBuffer.append(aChar);}}else
+      outBuffer.append(aChar);}
+prev.setResponseData(outBuffer.toString());</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则提取 mid" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">deleteMid</stringProp>
+              <stringProp name="RegexExtractor.regex">(?s)&lt;div(.+?)class=&quot;WB_cardwrap(.+?)mid=&quot;(\d+?)&quot;(.+?)&gt;(.+?)&lt;div(.+?)class=&quot;WB_text(.+?)&lt;div class=&quot;WB_like</stringProp>
+              <stringProp name="RegexExtractor.template">$3$,$7$</stringProp>
+              <stringProp name="RegexExtractor.default">0</stringProp>
+              <stringProp name="RegexExtractor.match_number">-1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="重新设置 while 循环搜索条件" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">//log.info(&quot;!!!!!!!!!!!!!!!!!&quot;+vars.get(&quot;deleteMid&quot;));
+if (vars.get(&quot;deleteMid_1_g3&quot;) == null) {
+	vars.put(&quot;flag&quot;, &quot;false&quot;);
+}</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="0.1s" enabled="false">
+              <stringProp name="ConstantTimer.delay">100</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if 若 mid 没删完" enabled="true">
+            <stringProp name="IfController.condition">${flag}</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <boolProp name="IfController.useExpression">true</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="删除微博（指定日期之前所有）" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="mid" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">${deleteMid_1_g3}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">mid</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">weibo.com</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">/aj/mblog/del?ajwvr=6</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if 短时间访问到一定次数需要休眠" enabled="true">
+            <stringProp name="IfController.condition">${__javaScript(${__counter(TRUE,)}%15==0)}</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <boolProp name="IfController.useExpression">true</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="----------休息----------" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path"></stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定延时 7s" enabled="true">
+                <stringProp name="TestPlan.comments">定时器一定要有 sampler 触发</stringProp>
+                <stringProp name="ConstantTimer.delay">7000</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="抽奖转发以及原创来躲过滤" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -62,54 +469,6 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
-          <collectionProp name="Arguments.arguments">
-            <elementProp name="currentTime" elementType="Argument">
-              <stringProp name="Argument.name">currentTime</stringProp>
-              <stringProp name="Argument.value">2020-08-26</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-              <stringProp name="Argument.desc">${__time(yyyy-MM-dd,)}</stringProp>
-            </elementProp>
-            <elementProp name="timerDuration" elementType="Argument">
-              <stringProp name="Argument.name">timerDuration</stringProp>
-              <stringProp name="Argument.value">300</stringProp>
-              <stringProp name="Argument.desc">毫秒（ms）</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="cookies" elementType="Argument">
-              <stringProp name="Argument.name">cookies</stringProp>
-              <stringProp name="Argument.value">SINAGLOBAL=37089483263.85686.1597846118028; wvr=6; UOR=,,www.baidu.com; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WFHe8sUxIJF5SEcjA7MyoiM5JpX5KzhUgL.Fo-ESh5RSKzN1K-2dJLoIXXLxKqLBonL1h-LxK.LBKeL12-LxKML1heL1hnLxK.L1h-L1KzLxK-LB-BLBKBLxKML12zLB-eLxKBLBonLB.2LxK-L12qL12zEe0e0e7tt; wb_view_log_5240852795=1366*7681; Ugrow-G0=cf25a00b541269674d0feadd72dce35f; SUB=_2A25yQU8hDeRhGeNM71IZ9SzLwjmIHXVRNyfprDV8PUNbmtAKLRH5kW9NTgPndlmpKkvx0-XXL_CRGsRPfnnLhcmZ; SUHB=079Te8eLo5jkE2; ALF=1629909744; SSOLoginState=1598373745; YF-V5-G0=f5a079faba115a1547149ae0d48383dc; _s_tentry=login.sina.com.cn; Apache=4499541434066.963.1598373747509; ULV=1598373747566:7:7:4:4499541434066.963.1598373747509:1598337939685</stringProp>
-              <stringProp name="Argument.desc">目前不知道多久变一次</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-          </collectionProp>
-        </Arguments>
-        <hashTree/>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
-          <collectionProp name="HeaderManager.headers">
-            <elementProp name="cookie" elementType="Header">
-              <stringProp name="Header.name">cookie</stringProp>
-              <stringProp name="Header.value">${cookies}</stringProp>
-            </elementProp>
-            <elementProp name="user-agent" elementType="Header">
-              <stringProp name="Header.name">user-agent</stringProp>
-              <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36</stringProp>
-            </elementProp>
-            <elementProp name="origin" elementType="Header">
-              <stringProp name="Header.name">origin</stringProp>
-              <stringProp name="Header.value">https://weibo.com</stringProp>
-            </elementProp>
-            <elementProp name="" elementType="Header">
-              <stringProp name="Header.name">referer</stringProp>
-              <stringProp name="Header.value">https://weibo.com/5240852795/profile?rightmod=1&amp;wvr=6&amp;mod=personnumber&amp;is_all=1</stringProp>
-            </elementProp>
-            <elementProp name="x-requested-with" elementType="Header">
-              <stringProp name="Header.name">x-requested-with</stringProp>
-              <stringProp name="Header.value">XMLHttpRequest</stringProp>
-            </elementProp>
-          </collectionProp>
-        </HeaderManager>
-        <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="登录接口测试" enabled="false"/>
         <hashTree>
           <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie 管理器" enabled="false">
@@ -255,157 +614,159 @@
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="搜索当天关注人的微博并筛选抽奖微博" enabled="true"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="搜索当天关注人的微博（最多拿到 15 条数据）" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="pids" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">Pl_Content_HomeFeed</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">pids</stringProp>
-                </elementProp>
-                <elementProp name="is_ori" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_ori</stringProp>
-                </elementProp>
-                <elementProp name="is_text" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_text</stringProp>
-                </elementProp>
-                <elementProp name="is_pic" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_pic</stringProp>
-                </elementProp>
-                <elementProp name="is_video" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_video</stringProp>
-                </elementProp>
-                <elementProp name="is_music" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_music</stringProp>
-                </elementProp>
-                <elementProp name="is_article" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_article</stringProp>
-                </elementProp>
-                <elementProp name="key_word" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">@微博抽奖平台</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">key_word</stringProp>
-                </elementProp>
-                <elementProp name="start_time" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${currentTime}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">start_time</stringProp>
-                </elementProp>
-                <elementProp name="end_time" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${currentTime}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">end_time</stringProp>
-                </elementProp>
-                <elementProp name="gid" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value"></stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">gid</stringProp>
-                </elementProp>
-                <elementProp name="is_new" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value"></stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_new</stringProp>
-                </elementProp>
-                <elementProp name="is_search" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_search</stringProp>
-                </elementProp>
-                <elementProp name="is_searchadv" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">is_searchadv</stringProp>
-                </elementProp>
-                <elementProp name="ajaxpagelet" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">ajaxpagelet</stringProp>
-                </elementProp>
-                <elementProp name="ajaxpagelet_v6" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">1</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">ajaxpagelet_v6</stringProp>
-                </elementProp>
-                <elementProp name="__ref" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value"></stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">__ref</stringProp>
-                </elementProp>
-                <elementProp name="_t" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value"></stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">_t</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain">weibo.com</stringProp>
-            <stringProp name="HTTPSampler.port"></stringProp>
-            <stringProp name="HTTPSampler.protocol">https</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding">gbk</stringProp>
-            <stringProp name="HTTPSampler.path">/u/5240852795/home</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="搜索当天关注人的抽奖微博" enabled="true"/>
           <hashTree>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="将响应结果 unicode 转成中文" enabled="true">
-              <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="parameters"></stringProp>
-              <stringProp name="filename"></stringProp>
-              <stringProp name="script">String s=new String(prev.getResponseData(),&quot;UTF-8&quot;);
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="搜索当天关注人的微博（最多拿到 15 条数据）" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="pids" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">Pl_Content_HomeFeed</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">pids</stringProp>
+                  </elementProp>
+                  <elementProp name="is_ori" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_ori</stringProp>
+                  </elementProp>
+                  <elementProp name="is_text" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_text</stringProp>
+                  </elementProp>
+                  <elementProp name="is_pic" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_pic</stringProp>
+                  </elementProp>
+                  <elementProp name="is_video" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_video</stringProp>
+                  </elementProp>
+                  <elementProp name="is_music" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_music</stringProp>
+                  </elementProp>
+                  <elementProp name="is_article" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_article</stringProp>
+                  </elementProp>
+                  <elementProp name="key_word" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">@微博抽奖平台</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">key_word</stringProp>
+                  </elementProp>
+                  <elementProp name="start_time" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">${currentTime}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">start_time</stringProp>
+                  </elementProp>
+                  <elementProp name="end_time" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">${currentTime}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">end_time</stringProp>
+                  </elementProp>
+                  <elementProp name="gid" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value"></stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">gid</stringProp>
+                  </elementProp>
+                  <elementProp name="is_new" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value"></stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_new</stringProp>
+                  </elementProp>
+                  <elementProp name="is_search" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_search</stringProp>
+                  </elementProp>
+                  <elementProp name="is_searchadv" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">is_searchadv</stringProp>
+                  </elementProp>
+                  <elementProp name="ajaxpagelet" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">ajaxpagelet</stringProp>
+                  </elementProp>
+                  <elementProp name="ajaxpagelet_v6" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">ajaxpagelet_v6</stringProp>
+                  </elementProp>
+                  <elementProp name="__ref" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value"></stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">__ref</stringProp>
+                  </elementProp>
+                  <elementProp name="_t" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value"></stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">_t</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">weibo.com</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">gbk</stringProp>
+              <stringProp name="HTTPSampler.path">/u/5240852795/home</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="将响应结果 unicode 转成中文" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">String s=new String(prev.getResponseData(),&quot;UTF-8&quot;);
         char aChar;
         int len= s.length();
         StringBuffer outBuffer=new StringBuffer(len);
@@ -461,23 +822,23 @@
                     outBuffer.append(aChar);}}else
                 outBuffer.append(aChar);}
         prev.setResponseData(outBuffer.toString());</stringProp>
-            </BeanShellPostProcessor>
-            <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则提取 mid" enabled="true">
-              <stringProp name="TestPlan.comments">&lt;div(.+?)class=\\&quot;WB_cardwrap(.+?)mid=\\&quot;(\d+?)\\&quot;(.+?)&gt;(.+?)&lt;div(.+?)class=\\&quot;WB_text(.+?)&lt;div class=\\&quot;WB_like</stringProp>
-              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-              <stringProp name="RegexExtractor.refname">mid</stringProp>
-              <stringProp name="RegexExtractor.regex">(?s)&lt;div(.+?)class=&quot;WB_cardwrap(.+?)mid=&quot;(\d+?)&quot;(.+?)&gt;(.+?)&lt;div(.+?)class=&quot;WB_text(.+?)&lt;div class=&quot;WB_like</stringProp>
-              <stringProp name="RegexExtractor.template">$3$,$7$</stringProp>
-              <stringProp name="RegexExtractor.default">0</stringProp>
-              <stringProp name="RegexExtractor.match_number">-1</stringProp>
-            </RegexExtractor>
-            <hashTree/>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="获取 firstMid 和 lastMid 和 pageBar（会作为下拉接口的参数）" enabled="true">
-              <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="parameters"></stringProp>
-              <stringProp name="filename"></stringProp>
-              <stringProp name="script">// 设置第一个 mid
+              </BeanShellPostProcessor>
+              <hashTree/>
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则提取 mid" enabled="true">
+                <stringProp name="TestPlan.comments">&lt;div(.+?)class=\\&quot;WB_cardwrap(.+?)mid=\\&quot;(\d+?)\\&quot;(.+?)&gt;(.+?)&lt;div(.+?)class=\\&quot;WB_text(.+?)&lt;div class=\\&quot;WB_like</stringProp>
+                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                <stringProp name="RegexExtractor.refname">mid</stringProp>
+                <stringProp name="RegexExtractor.regex">(?s)&lt;div(.+?)class=&quot;WB_cardwrap(.+?)mid=&quot;(\d+?)&quot;(.+?)&gt;(.+?)&lt;div(.+?)class=&quot;WB_text(.+?)&lt;div class=&quot;WB_like</stringProp>
+                <stringProp name="RegexExtractor.template">$3$,$7$</stringProp>
+                <stringProp name="RegexExtractor.default">0</stringProp>
+                <stringProp name="RegexExtractor.match_number">-1</stringProp>
+              </RegexExtractor>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="获取 firstMid 和 lastMid 和 pageBar（会作为下拉接口的参数）" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">// 设置第一个 mid
 vars.put(&quot;firstMid&quot;, vars.get(&quot;mid_1_g3&quot;));
 // 设置最后一个 mid
 vars.put(&quot;lastMid&quot;, vars.get(&quot;mid_&quot; + vars.get(&quot;mid_matchNr&quot;) + &quot;_g3&quot;));
@@ -491,13 +852,13 @@ vars.put(&quot;pageBar&quot;, &quot;0&quot;);
  * 
  * lastMid：搜索出的最后一个 mid 信息，一般来讲如果微博数量足够多，最多只能返回 15 个 mid，所以一般这是第 15 个
  */</stringProp>
-            </BeanShellPostProcessor>
-            <hashTree/>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="将 mid 的个数保存为变量" enabled="true">
-              <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="parameters"></stringProp>
-              <stringProp name="filename"></stringProp>
-              <stringProp name="script">// 获取当前 mid 有多少个
+              </BeanShellPostProcessor>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="将 mid 的个数保存为变量" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">// 获取当前 mid 有多少个
 vars.put(&quot;currentMidCount&quot;, vars.get(&quot;mid_matchNr&quot;));
 
 /**
@@ -505,23 +866,23 @@ vars.put(&quot;currentMidCount&quot;, vars.get(&quot;mid_matchNr&quot;));
  * 
  * currentMidCount：${mid_matchNr}
  */</stringProp>
-            </BeanShellPostProcessor>
-            <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则提取 blogCount" enabled="true">
-              <stringProp name="TestPlan.comments">&gt;17&lt;\/em&gt;条微博</stringProp>
-              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-              <stringProp name="RegexExtractor.refname">blogCount</stringProp>
-              <stringProp name="RegexExtractor.regex">&gt;(\d+?)&lt;/em&gt;条微博</stringProp>
-              <stringProp name="RegexExtractor.template">$1$</stringProp>
-              <stringProp name="RegexExtractor.default">0</stringProp>
-              <stringProp name="RegexExtractor.match_number">1</stringProp>
-            </RegexExtractor>
-            <hashTree/>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="依据当天微博数计算下拉次数" enabled="true">
-              <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="parameters"></stringProp>
-              <stringProp name="filename"></stringProp>
-              <stringProp name="script">// 计算下拉刷新的次数 (${blogCount} - 1) / 15;
+              </BeanShellPostProcessor>
+              <hashTree/>
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则提取 blogCount" enabled="true">
+                <stringProp name="TestPlan.comments">&gt;17&lt;\/em&gt;条微博</stringProp>
+                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                <stringProp name="RegexExtractor.refname">blogCount</stringProp>
+                <stringProp name="RegexExtractor.regex">&gt;(\d+?)&lt;/em&gt;条微博</stringProp>
+                <stringProp name="RegexExtractor.template">$1$</stringProp>
+                <stringProp name="RegexExtractor.default">0</stringProp>
+                <stringProp name="RegexExtractor.match_number">1</stringProp>
+              </RegexExtractor>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="依据当天微博数计算下拉次数" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">// 计算下拉刷新的次数 (${blogCount} - 1) / 15;
 int count = (${blogCount} - 1) / 15;
 vars.put(&quot;freshCount&quot;, &quot;&quot; + count);
 
@@ -530,8 +891,9 @@ vars.put(&quot;freshCount&quot;, &quot;&quot; + count);
  * 
  * freshCount：刷新的次数，下面要用
  */</stringProp>
-            </BeanShellPostProcessor>
-            <hashTree/>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
           </hashTree>
           <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环不断下拉显示更多微博" enabled="true">
             <boolProp name="LoopController.continue_forever">true</boolProp>
@@ -980,13 +1342,6 @@ log.info(&quot;========= 结束 =========&quot;);
             <boolProp name="ForeachController.useSeparator">true</boolProp>
           </ForeachController>
           <hashTree>
-            <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="AI  智能识别原内容并处理" enabled="true">
-              <stringProp name="filename"></stringProp>
-              <stringProp name="parameters"></stringProp>
-              <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="script"></stringProp>
-            </BeanShellPreProcessor>
-            <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${__counter(TRUE,)}.点赞微博（无评论）" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
                 <collectionProp name="Arguments.arguments">
@@ -1063,6 +1418,13 @@ log.info(&quot;========= 结束 =========&quot;);
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="AI  智能识别原内容并处理" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script"></stringProp>
+              </BeanShellPreProcessor>
+              <hashTree/>
               <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="每隔0.2s" enabled="true">
                 <stringProp name="ConstantTimer.delay">$(timerDuration)</stringProp>
               </ConstantTimer>
@@ -1212,13 +1574,6 @@ log.info(&quot;========= 结束 =========&quot;);
             <boolProp name="ForeachController.useSeparator">true</boolProp>
           </ForeachController>
           <hashTree>
-            <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="AI  智能识别原内容并处理" enabled="true">
-              <stringProp name="filename"></stringProp>
-              <stringProp name="parameters"></stringProp>
-              <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="script"></stringProp>
-            </BeanShellPreProcessor>
-            <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${__counter(TRUE,)}.点赞微博（有评论）" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
                 <collectionProp name="Arguments.arguments">
@@ -1295,6 +1650,13 @@ log.info(&quot;========= 结束 =========&quot;);
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="AI  智能识别原内容并处理" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script"></stringProp>
+              </BeanShellPreProcessor>
+              <hashTree/>
               <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="每隔0.2s" enabled="true">
                 <stringProp name="ConstantTimer.delay">$(timerDuration)</stringProp>
               </ConstantTimer>
