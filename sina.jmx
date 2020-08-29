@@ -51,27 +51,38 @@
       <hashTree/>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="currentTime" elementType="Argument">
-            <stringProp name="Argument.name">currentTime</stringProp>
-            <stringProp name="Argument.value">2020-08-27</stringProp>
+          <elementProp name="startTime" elementType="Argument">
+            <stringProp name="Argument.name">startTime</stringProp>
+            <stringProp name="Argument.value">2020-08-29</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
-            <stringProp name="Argument.desc">${__time(yyyy-MM-dd,)}</stringProp>
+          </elementProp>
+          <elementProp name="endTime" elementType="Argument">
+            <stringProp name="Argument.name">endTime</stringProp>
+            <stringProp name="Argument.value">2020-08-29</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">当前时间使用${__time(yyyy-MM-dd,)}</stringProp>
           </elementProp>
           <elementProp name="deleteGap" elementType="Argument">
             <stringProp name="Argument.name">deleteGap</stringProp>
             <stringProp name="Argument.value">15</stringProp>
-            <stringProp name="Argument.desc">删除多少天前的</stringProp>
+            <stringProp name="Argument.desc">删除距离今天多少天前的</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="timerDuration" elementType="Argument">
             <stringProp name="Argument.name">timerDuration</stringProp>
-            <stringProp name="Argument.value">30000</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
             <stringProp name="Argument.desc">毫定时器间隔多少毫秒（ms）</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="searchText" elementType="Argument">
+            <stringProp name="Argument.name">searchText</stringProp>
+            <stringProp name="Argument.value">不过滤</stringProp>
+            <stringProp name="Argument.desc">搜索关键字</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cookies" elementType="Argument">
             <stringProp name="Argument.name">cookies</stringProp>
-            <stringProp name="Argument.value">SINAGLOBAL=37089483263.85686.1597846118028; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WFHe8sUxIJF5SEcjA7MyoiM5JpX5KzhUgL.Fo-ESh5RSKzN1K-2dJLoIXXLxKqLBonL1h-LxK.LBKeL12-LxKML1heL1hnLxK.L1h-L1KzLxK-LB-BLBKBLxKML12zLB-eLxKBLBonLB.2LxK-L12qL12zEe0e0e7tt; UOR=,,www.baidu.com; SUHB=0btMNBksSDo6Ot; ALF=1630037273; wb_view_log_5240852795=1366*7681; Ugrow-G0=cf25a00b541269674d0feadd72dce35f; SUB=_2A25yTDNBDeRhGeNM71IZ9SzLwjmIHXVROCOJrDV8PUNbn9AKLXKkkW9NTgPndj2Mh5GPALM_3SdKBZPcbI_Bcm2b; wvr=6; YF-V5-G0=125128c5d7f9f51f96971f11468b5a3f; _s_tentry=www.baidu.com; Apache=5775752503199.607.1598571289595; ULV=1598571289609:12:12:9:5775752503199.607.1598571289595:1598501278326; wb_timefeed_5240852795=1</stringProp>
+            <stringProp name="Argument.value">SINAGLOBAL=37089483263.85686.1597846118028; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WFHe8sUxIJF5SEcjA7MyoiM5JpX5KzhUgL.Fo-ESh5RSKzN1K-2dJLoIXXLxKqLBonL1h-LxK.LBKeL12-LxKML1heL1hnLxK.L1h-L1KzLxK-LB-BLBKBLxKML12zLB-eLxKBLBonLB.2LxK-L12qL12zEe0e0e7tt; UOR=,,www.baidu.com; SUHB=0btMNBksSDo6Ot; ALF=1630037273; wvr=6; wb_timefeed_5240852795=1; wb_view_log_5240852795=1366*7681; Ugrow-G0=589da022062e21d675f389ce54f2eae7; SUB=_2A25yTcMTDeRhGeNM71IZ9SzLwjmIHXVROrPbrDV8PUNbn9AKLU2mkW9NTgPndgKdQycPTuxsx1MPpkHExRbr7RN-; YF-V5-G0=2583080cfb7221db1341f7a137b6762e; _s_tentry=www.baidu.com; Apache=6484082235118.511.1598665547494; ULV=1598665547555:15:15:12:6484082235118.511.1598665547494:1598631032328</stringProp>
             <stringProp name="Argument.desc">cookies 目前不知道多久变一次</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -417,42 +428,49 @@ if (vars.get(&quot;deleteMid_1_g3&quot;) == null) {
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON 状态码提取" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">codeStatus</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.code</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">0</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
               <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="0.1s" enabled="true">
                 <stringProp name="ConstantTimer.delay">${timerDuration}</stringProp>
               </ConstantTimer>
               <hashTree/>
             </hashTree>
-          </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if 短时间访问到一定次数需要休眠" enabled="true">
-            <stringProp name="IfController.condition">${__javaScript(${__counter(TRUE,)}%15==0)}</stringProp>
-            <boolProp name="IfController.evaluateAll">false</boolProp>
-            <boolProp name="IfController.useExpression">true</boolProp>
-          </IfController>
-          <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="----------休息----------" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain"></stringProp>
-              <stringProp name="HTTPSampler.port"></stringProp>
-              <stringProp name="HTTPSampler.protocol"></stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path"></stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-            </HTTPSamplerProxy>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if 产生失败的状态码后需要休眠" enabled="true">
+              <stringProp name="IfController.condition">${__javaScript(${codeStatus}!=100000)}</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+              <boolProp name="IfController.useExpression">true</boolProp>
+            </IfController>
             <hashTree>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定延时 10s" enabled="true">
-                <stringProp name="TestPlan.comments">定时器一定要有 sampler 触发</stringProp>
-                <stringProp name="ConstantTimer.delay">10000</stringProp>
-              </ConstantTimer>
-              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="----------休息----------" enabled="true">
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+                  <collectionProp name="Arguments.arguments"/>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain"></stringProp>
+                <stringProp name="HTTPSampler.port"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path"></stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定延时 65min" enabled="true">
+                  <stringProp name="TestPlan.comments">定时器一定要有 sampler 触发</stringProp>
+                  <stringProp name="ConstantTimer.delay">3900000</stringProp>
+                </ConstantTimer>
+                <hashTree/>
+              </hashTree>
             </hashTree>
           </hashTree>
         </hashTree>
@@ -671,21 +689,21 @@ if (vars.get(&quot;deleteMid_1_g3&quot;) == null) {
                   </elementProp>
                   <elementProp name="key_word" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">@微博抽奖平台</stringProp>
+                    <stringProp name="Argument.value">${searchText}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     <stringProp name="Argument.name">key_word</stringProp>
                   </elementProp>
                   <elementProp name="start_time" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${currentTime}</stringProp>
+                    <stringProp name="Argument.value">${startTime}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     <stringProp name="Argument.name">start_time</stringProp>
                   </elementProp>
                   <elementProp name="end_time" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${currentTime}</stringProp>
+                    <stringProp name="Argument.value">${endTime}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     <stringProp name="Argument.name">end_time</stringProp>
@@ -983,21 +1001,21 @@ vars.put(&quot;freshCount&quot;, &quot;&quot; + count);
                   </elementProp>
                   <elementProp name="key_word" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">@微博抽奖平台</stringProp>
+                    <stringProp name="Argument.value">${searchText}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     <stringProp name="Argument.name">key_word</stringProp>
                   </elementProp>
                   <elementProp name="start_time" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${currentTime}</stringProp>
+                    <stringProp name="Argument.value">${startTime}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     <stringProp name="Argument.name">start_time</stringProp>
                   </elementProp>
                   <elementProp name="end_time" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${currentTime}</stringProp>
+                    <stringProp name="Argument.value">${endTime}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     <stringProp name="Argument.name">end_time</stringProp>
@@ -1210,7 +1228,7 @@ for (int i = 1; i &lt;= freshMidCount; i++) {
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="基本筛选所有 mid 微博" enabled="true">
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="基本筛选 mid 微博" enabled="true">
               <boolProp name="resetInterpreter">false</boolProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -1240,21 +1258,23 @@ for (int i = 1,index = 0; i &lt;= originNum; i++) {
 	/* 不用评论 */
 	if (!tmpCtx.contains(&quot;评&quot;) &amp;&amp; !tmpCtx.contains(&quot;留言&quot;)) {
 		// 如果有 &quot;带话题&quot; 或者 &quot;带#&quot;
-		if (tmpCtx.matches(&quot;(?s)^(.*?)带(着|上)?话题(.*?)$&quot;) || tmpCtx.matches(&quot;(?s)^(.*?)带(上?)( ?)&lt;a target=(.*?)$&quot;)) {
+		if (tmpCtx.matches(&quot;(?s)^(.*?)带(着|上)?话题(.*?)$&quot;) || tmpCtx.matches(&quot;(?s)^(.*?)带(上?)( ?)&lt;a target=(.*?)$&quot;) || tmpCtx.matches(&quot;(?s)^(.*?)(喊出|参与)(话题)?( ?)&lt;a target=(.*?)$&quot;)) {
 			// 有可能出现 “带话题” 之后每有 “#”，可能在前面出现了 “#” 号
 			// 如果 &quot;带话题&quot; 后正常有 &quot;#&quot; 号
 			// &quot;带话题(.*?)#&quot;
-			if (tmpCtx.split(&quot;带(上?)(话题)?( ?)#&quot;).length &gt; 1) {
-				value = &quot;#&quot;+tmpCtx.split(&quot;带(上?)(话题)?( ?)#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖...&quot;;
+			if (tmpCtx.split(&quot;(带(上?)(话题)?|(参与|喊出)(话题)?)(.*?)#&quot;).length &gt; 1) {
+				value = &quot;#&quot;+tmpCtx.split(&quot;(带(上?)(话题)?|(参与|喊出)(话题)?)(.*?)#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖希望中奖希望中奖希望中奖....&quot;;
 			}
 			// 如果带话题后没有 &quot;#&quot; 号
 			else {
-				value = &quot;#&quot;+tmpCtx.split(&quot;&gt;#&quot;)[1].split(&quot;#&lt;&quot;)[0]+&quot;#希望中奖...&quot;;	
+				if (tmpCtx.contains(&quot;#&quot;)) {
+					value = &quot;#&quot;+tmpCtx.split(&quot;#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖希望中奖希望中奖希望中奖...&quot;;	
+				}
 			}
 		}
 		// 如果没有 &quot;带话题&quot; 或者 &quot;带#&quot;
 		else {
-			value = &quot;希望中奖...&quot;;
+			value = &quot;希望中奖希望中奖希望中奖希望中奖....&quot;;
 		}
 		// 对于不用评论的，需要识别一下是否需要 at 几位好友
 		// 如果要 at 一位好友
@@ -1276,20 +1296,22 @@ for (int i = 1,index = 0; i &lt;= originNum; i++) {
 	/* 需要评论的 */
 	else {
 		//  如果有 &quot;带话题&quot; 或者 &quot;带#&quot;
-		if (tmpCtx.matches(&quot;(?s)^(.*?)带(着|上)?话题(.*?)$&quot;) || tmpCtx.matches(&quot;(?s)^(.*?)带(上?)( ?)&lt;a target=(.*?)$&quot;)) {
+		if (tmpCtx.matches(&quot;(?s)^(.*?)带(着|上)?话题(.*?)$&quot;) || tmpCtx.matches(&quot;(?s)^(.*?)带(上?)( ?)&lt;a target=(.*?)$&quot;) || tmpCtx.matches(&quot;(?s)^(.*?)(喊出|参与)(话题)?( ?)&lt;a target=(.*?)$&quot;)) {
 			// 有可能出现 “带话题” 之后每有 “#”，可能在前面出现了 “#” 号
 			// 如果 &quot;带话题&quot; 后正常有 &quot;#&quot; 号
-			if (tmpCtx.split(&quot;带(上?)(话题)?( ?)#&quot;).length &gt; 1) {
-				value = &quot;#&quot;+tmpCtx.split(&quot;带(上?)(话题)?( ?)#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖&quot;;
+			if (tmpCtx.split(&quot;(带(上?)(话题)?|(参与|喊出)(话题)?)(.*?)#&quot;).length &gt; 1) {
+				value = &quot;#&quot;+tmpCtx.split(&quot;(带(上?)(话题)?|(参与|喊出)(话题)?)(.*?)#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖!希望中奖!!希望中奖!!!希望中奖!!!!&quot;;
 			}
 			// 如果带话题后没有 &quot;#&quot; 号
 			else {
-				value = &quot;#&quot;+tmpCtx.split(&quot;&gt;#&quot;)[1].split(&quot;#&lt;&quot;)[0]+&quot;#希望中奖&quot;;
+				if (tmpCtx.contains(&quot;#&quot;)) {
+					value = &quot;#&quot;+tmpCtx.split(&quot;#&quot;)[1].split(&quot;#&quot;)[0]+&quot;#希望中奖!希望中奖!!希望中奖!!!希望中奖!!!!&quot;;
+				}
 			}
 		}
 		// 如果没有 &quot;带话题&quot; 或者 &quot;带#&quot;
 		else {
-			value = &quot;希望中奖&quot;;
+			value = &quot;希望中奖!希望中奖!!希望中奖!!!希望中奖!!!!&quot;;
 		}
 		comMap.put(tmpId, value);
 		// 还需要保存原始 tmpCtx 数据
@@ -1307,6 +1329,7 @@ for (Map.Entry entry : noComMap.entrySet()) {
 	vars.put(&quot;noComBody_&quot;+index, &quot;&quot;+entry.getValue());
 	index++;
 }
+vars.put(&quot;noComNums&quot;, &quot;&quot; + (index - 1));
 
 // 存储需要评论的
 index = 1;
@@ -1315,6 +1338,7 @@ for (Map.Entry entry : comMap.entrySet()) {
 	vars.put(&quot;comBody_&quot;+index, &quot;&quot;+entry.getValue());
 	index++;
 }
+vars.put(&quot;comNums&quot;, &quot;&quot; + (index - 1));
 
 log.info(&quot;========= 结束 =========&quot;);
 
@@ -1339,7 +1363,7 @@ log.info(&quot;========= 结束 =========&quot;);
             <boolProp name="ForeachController.useSeparator">true</boolProp>
           </ForeachController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${__counter(TRUE,)}.点赞微博（无评论）" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${__counter(TRUE,)}.点赞微博（无评论），共${noComNums}条" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="location" elementType="HTTPArgument">
@@ -1558,8 +1582,16 @@ log.info(&quot;========= 结束 =========&quot;);
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
-            <hashTree/>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="原创微博" enabled="true"/>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON 状态码提取" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">codeStatus</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.code</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">0</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="原创微博" enabled="false"/>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="响应经典名句" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
@@ -1837,6 +1869,38 @@ vars.put(&quot;pic_id&quot;, segment[index-1]);
                 <hashTree/>
               </hashTree>
             </hashTree>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if 产生失败的状态码后需要休眠" enabled="true">
+              <stringProp name="IfController.condition">${__javaScript(${codeStatus}!=100000)}</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+              <boolProp name="IfController.useExpression">true</boolProp>
+            </IfController>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="----------休息----------" enabled="true">
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+                  <collectionProp name="Arguments.arguments"/>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain"></stringProp>
+                <stringProp name="HTTPSampler.port"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path"></stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定延时 65min" enabled="true">
+                  <stringProp name="TestPlan.comments">定时器一定要有 sampler 触发</stringProp>
+                  <stringProp name="ConstantTimer.delay">3900000</stringProp>
+                </ConstantTimer>
+                <hashTree/>
+              </hashTree>
+            </hashTree>
           </hashTree>
           <ForeachController guiclass="ForeachControlPanel" testclass="ForeachController" testname="循环转发（点赞+转发+识别带话题+识别@好友+评论）" enabled="true">
             <stringProp name="ForeachController.inputVal">comMid</stringProp>
@@ -1844,7 +1908,7 @@ vars.put(&quot;pic_id&quot;, segment[index-1]);
             <boolProp name="ForeachController.useSeparator">true</boolProp>
           </ForeachController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${__counter(TRUE,)}.点赞微博（有评论）" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${__counter(TRUE,)}.点赞微博（有评论），共${comNums}条" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="location" elementType="HTTPArgument">
@@ -2070,7 +2134,15 @@ vars.put(&quot;pic_id&quot;, segment[index-1]);
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
-            <hashTree/>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON 状态码提取" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">codeStatus</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.code</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">0</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
             <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="原创微博" enabled="true"/>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="响应经典名句" enabled="true">
@@ -2346,6 +2418,38 @@ int index = (int)(Math.random() * segment.length + 1);
 vars.put(&quot;pic_id&quot;, segment[index-1]);
 </stringProp>
                 </BeanShellPreProcessor>
+                <hashTree/>
+              </hashTree>
+            </hashTree>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if 产生失败的状态码后需要休眠" enabled="true">
+              <stringProp name="IfController.condition">${__javaScript(${codeStatus}!=100000)}</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+              <boolProp name="IfController.useExpression">true</boolProp>
+            </IfController>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="----------休息----------" enabled="true">
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+                  <collectionProp name="Arguments.arguments"/>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain"></stringProp>
+                <stringProp name="HTTPSampler.port"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path"></stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定延时 65min" enabled="true">
+                  <stringProp name="TestPlan.comments">定时器一定要有 sampler 触发</stringProp>
+                  <stringProp name="ConstantTimer.delay">3900000</stringProp>
+                </ConstantTimer>
                 <hashTree/>
               </hashTree>
             </hashTree>
@@ -2654,7 +2758,7 @@ log.info(b);</stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="即使带图片的微博删除了图片的 id 也依然可用" enabled="false">
+            <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="即使带图片的微博删除了图片的 id 也依然可用" enabled="true">
               <boolProp name="resetInterpreter">false</boolProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -2689,6 +2793,45 @@ vars.put(&quot;pic_id&quot;, segment[index-1]);
 </stringProp>
             </BeanShellPreProcessor>
             <hashTree/>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON 状态码提取" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">codeStatus</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.code</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">0</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if 产生失败的状态码后需要休眠" enabled="true">
+            <stringProp name="IfController.condition">${__javaScript(${codeStatus}!=100000)}</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <boolProp name="IfController.useExpression">true</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="----------休息----------" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path"></stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定延时 65min" enabled="true">
+                <stringProp name="TestPlan.comments">定时器一定要有 sampler 触发</stringProp>
+                <stringProp name="ConstantTimer.delay">3900000</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+            </hashTree>
           </hashTree>
         </hashTree>
       </hashTree>
